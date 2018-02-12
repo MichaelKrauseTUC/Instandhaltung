@@ -1,5 +1,6 @@
 *.*
 !.gitignore
+!pom.xml
 !*.java
 
 target/
