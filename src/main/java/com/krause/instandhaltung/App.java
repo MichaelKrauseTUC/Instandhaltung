@@ -1,4 +1,4 @@
-package com.krause.instandhaltung.nstandhaltung;
+package com.krause.instandhaltung;
 
 /**
  * Hello world!
