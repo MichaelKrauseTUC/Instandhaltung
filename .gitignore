@@ -1,6 +1,10 @@
 *.*
 !.gitignore
+!circle.yml
 !pom.xml
 !*.java
+
+!src/analysis/**/*.xml
+
 
 target/
