@@ -1,4 +1,4 @@
-package krause.com;
+package com.krause.instandhaltung;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

@@ -1,8 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>krause.com</groupId>
-  <artifactId>Instandhaltung</artifactId>
+  <groupId>com.krause</groupId>
+  <artifactId>instandhaltung</artifactId>
   <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
 
@@ -167,7 +167,7 @@
                         <configuration>
                             <rules>
                                 <requireMavenVersion>
-                                    <version>3.5</version>
+                                    <version>3.3.5</version>
                                 </requireMavenVersion>
                                 <requireJavaVersion>
                                     <version>${maven.compiler.source}</version>
@@ -244,7 +244,7 @@
                         <configuration>
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>krause.com.App</mainClass>
+                                    <mainClass>com.krause.instandhaltung.App</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>

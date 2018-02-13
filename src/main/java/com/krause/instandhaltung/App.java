@@ -1,4 +1,4 @@
-package krause.com;
+package com.krause.instandhaltung.nstandhaltung;
 
 /**
  * Hello world!
