@@ -3,6 +3,8 @@ package com.krause.instandhaltung;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.jfree.ui.RefineryUtilities;
+
 public final class CMain {
 
     public static void main(final String[] p_args) {
