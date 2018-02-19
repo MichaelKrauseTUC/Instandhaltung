@@ -1,3 +1,3 @@
 package com.krause.instandhaltung;
 
-public interface ISystem{}
+interface ISystem{}
