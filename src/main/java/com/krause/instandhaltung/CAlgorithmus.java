@@ -18,7 +18,7 @@ public final class CAlgorithmus {
 
         double maximum = Double.MIN_VALUE;
         int numIterations = 100000;
-        CState beststate = null;        // zum speichern des besten Zustands
+        CSystem beststate = null;        // zum speichern des besten Zustands
 
         for (
                 int k = 0;
