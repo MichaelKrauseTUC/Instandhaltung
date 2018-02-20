@@ -29,11 +29,11 @@ public final class CAlgorithmus implements IAlgorithmus {
             double B = 1.0;
             double[][] xit = generateXit(numComponents, numPeriods, B);    //x[i][t], i Komponentenindex, t Periodenindex
             //Parameter einer Komponente: a,g,ca,cg,ct, x
-            Component c0 = new Component(0, 1, 0.1, 0.2, 0.3, xit[0]);    //x Werte f�r Komponente 0 �bergeben
-            Component c1 = new Component(0, 1, 0.2, 0.3, 0.4, xit[1]);    ////x Werte f�r Komponente 1 �bergeben
+            CKomponente2 c0 = new CKomponente2(0, 1, 0.1, 0.2, 0.3, xit[0]);    //x Werte f�r Komponente 0 �bergeben
+            CKomponente2 c1 = new CKomponente2(0, 1, 0.2, 0.3, 0.4, xit[1]);    ////x Werte f�r Komponente 1 �bergeben
 //			Component c2 = new Component(0, 1, 0.1, 0.2, 0.3, xit[2]);
 //			Component c3 = new Component(0, 1, 0.2, 0.3, 0.4, xit[3]);
-            ArrayList<Component> components = new ArrayList<>();
+            ArrayList<CKomponente2> components = new ArrayList<>();
             components.addAll(Arrays.asList(c0, c1));        //alle Komponenten hier einf�gen!
 
             CSystem state = new CSystem(components, B);
@@ -59,7 +59,7 @@ public final class CAlgorithmus implements IAlgorithmus {
                 i++)
 
         {
-            Component c = beststate.getComponents().get(i);
+            CKomponente2 c = beststate.getComponents().get(i);
 
             //Fenster f�r g erstellen, Parameter: Fenstertitel, Y-Achsenbeschriftung, X-Achsenbeschriftung, Anzahl Perioden, zu zeichnende Werte
             CWindow w = new CWindow("g" + i, "g", "t", numPeriods, c.getgHistory());
@@ -89,11 +89,11 @@ public final class CAlgorithmus implements IAlgorithmus {
             double B = 1.0;
             double[][] xit = generateXit(numComponents, numPeriods, B);    //x[i][t], i Komponentenindex, t Periodenindex
             //Parameter einer Komponente: a,g,ca,cg,ct, x
-            Component c0 = new Component(0, 1, 0.1, 0.2, 0.3, xit[0]);    //x Werte f�r Komponente 0 �bergeben
-            Component c1 = new Component(0, 1, 0.2, 0.3, 0.4, xit[1]);    ////x Werte f�r Komponente 1 �bergeben
+            CKomponente2 c0 = new CKomponente2(0, 1, 0.1, 0.2, 0.3, xit[0]);    //x Werte f�r Komponente 0 �bergeben
+            CKomponente2 c1 = new CKomponente2(0, 1, 0.2, 0.3, 0.4, xit[1]);    ////x Werte f�r Komponente 1 �bergeben
 //			Component c2 = new Component(0, 1, 0.1, 0.2, 0.3, xit[2]);
 //			Component c3 = new Component(0, 1, 0.2, 0.3, 0.4, xit[3]);
-            ArrayList<Component> components = new ArrayList<>();
+            ArrayList<CKomponente2> components = new ArrayList<>();
             components.addAll(Arrays.asList(c0, c1));        //alle Komponenten hier einf�gen!
 
             CSystem state = new CSystem(components, B);
@@ -112,7 +112,7 @@ public final class CAlgorithmus implements IAlgorithmus {
 
         //Visualisierung der besten gi und ai
         for (int i = 0; i < beststate.getComponents().size(); i++) {
-            Component c = beststate.getComponents().get(i);
+            CKomponente2 c = beststate.getComponents().get(i);
 
             //Fenster f�r g erstellen, Parameter: Fenstertitel, Y-Achsenbeschriftung, X-Achsenbeschriftung, Anzahl Perioden, zu zeichnende Werte
             CWindow w2 = new CWindow("g" + i, "g", "t", numPeriods, c.getgHistory());
@@ -142,13 +142,13 @@ public final class CAlgorithmus implements IAlgorithmus {
     public static double calc(CSystem state, int T) {
         double funcValue = 0;
         double minGi = Double.MAX_VALUE;
-        for (Component c : state.getComponents()) {
+        for (CKomponente2 c : state.getComponents()) {
             minGi = Math.min(minGi, c.getG());
         }
         state.addValue(minGi);
         for (int t = 1; t <= T; t++) {
             //Zustand updaten
-            for (Component c : state.getComponents()) {
+            for (CKomponente2 c : state.getComponents()) {
                 double nextA = (1 + c.getA()) * Math.exp((-1 / c.getCa() * c.getXt()[t - 1]));
                 double nextG = c.getG() - c.getG() * (c.getA() + 1) / (1 / c.getCt() * T) + (1 - c.getG() * (1 - (c.getA() + 1) / (1 / c.getCt() * T))) * (1 - Math.exp(-1 / c.getCg() * c.getXt()[t - 1]));
                 c.setA(nextA);

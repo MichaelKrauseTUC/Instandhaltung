@@ -5,10 +5,10 @@ import java.util.ArrayList;
 public final class CSystem implements ISystem
 {
 
-    private ArrayList<Component> components = new ArrayList<>();	//Komponentenliste
+    private ArrayList<CKomponente2> components = new ArrayList<>();	//Komponentenliste
     private double b;
     private ArrayList<Double> valueHistory = new ArrayList<>();		//Liste f�r die Funktionswerte
-    public CSystem(ArrayList<Component> components, double b) {
+    public CSystem(ArrayList<CKomponente2> components, double b) {
         super();
         this.b = b;
         this.components = components;
@@ -18,7 +18,7 @@ public final class CSystem implements ISystem
 
     }
 
-    public ArrayList<Component> getComponents() {
+    public ArrayList<CKomponente2> getComponents() {
         return components;
     }
     public double getB() {
