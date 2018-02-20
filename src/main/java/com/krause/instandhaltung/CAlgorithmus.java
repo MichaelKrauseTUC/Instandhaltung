@@ -36,7 +36,7 @@ public final class CAlgorithmus {
             ArrayList<Component> components = new ArrayList<>();
             components.addAll(Arrays.asList(c0, c1));        //alle Komponenten hier einf�gen!
 
-            CState state = new CState(components, B);
+            CSystem state = new CSystem(components, B);
             double tmpMax = calc(state, numPeriods);
             //beste L�sung beibehalten
             if (tmpMax > maximum) {
@@ -96,7 +96,7 @@ public final class CAlgorithmus {
             ArrayList<Component> components = new ArrayList<>();
             components.addAll(Arrays.asList(c0, c1));        //alle Komponenten hier einf�gen!
 
-            CState state = new CState(components, B);
+            CSystem state = new CSystem(components, B);
             double tmpMax = calc(state, numPeriods);
             //beste L�sung beibehalten
             if (tmpMax > maximum) {
@@ -139,7 +139,7 @@ public final class CAlgorithmus {
      */
 //        Random r = new Random(21);
 //        System.out.println(r.nextDouble());
-    public static double calc(CState state, int T) {
+    public static double calc(CSystem state, int T) {
         double funcValue = 0;
         double minGi = Double.MAX_VALUE;
         for (Component c : state.getComponents()) {

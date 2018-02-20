@@ -13,6 +13,11 @@ public final class CSystem implements ISystem
         this.b = b;
         this.components = components;
     }
+
+    public CSystem() {
+
+    }
+
     public ArrayList<Component> getComponents() {
         return components;
     }
