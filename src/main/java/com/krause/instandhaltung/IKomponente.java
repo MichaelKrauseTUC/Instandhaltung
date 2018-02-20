@@ -1,3 +1,4 @@
 package com.krause.instandhaltung;
 
-public interface IAlgorithmus{}
+public interface IKomponente {
+}

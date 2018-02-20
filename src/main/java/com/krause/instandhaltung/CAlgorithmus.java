@@ -5,7 +5,7 @@ import org.jfree.ui.RefineryUtilities;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public final class CAlgorithmus {
+public final class CAlgorithmus implements IAlgorithmus {
     public CAlgorithmus(int i, CSystem2 cSystem2) {
     }
 
