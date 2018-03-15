@@ -34,6 +34,7 @@ public class CMain {
 		System.out.println(zfw);
 		DoubleMatrix2D lsg = algo2.getLoesung();
 		System.out.println(lsg);
+		System.out.println("GitTest");
 //		ArrayList<DoubleMatrix2D> lsgHistory = algo2.getHistory();
 
 		// CAlgorithmusTest algo1 = new CAlgorithmusTest();
