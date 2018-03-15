@@ -72,4 +72,10 @@ public class CAlgorithmusTest implements IAlgorithmus {
 		return lsg;
 	}
 
+	@Override
+	public void verlaeufePlotten() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

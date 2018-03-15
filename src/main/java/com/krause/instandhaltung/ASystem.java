@@ -30,7 +30,6 @@ public abstract class ASystem implements ISystem {
 	/**
 	 * @return gibt die Liste der Komponenten zur�ck
 	 */
-	@Override
 	public ArrayList<IKomponente> getKomponenten() {
 		return this.komponenten;
 	}

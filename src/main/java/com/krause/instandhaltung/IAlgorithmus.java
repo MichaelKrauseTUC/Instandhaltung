@@ -44,4 +44,6 @@ public interface IAlgorithmus {
 	 * @todo coden 
 	 */
 	public ArrayList<DoubleMatrix2D> getHistory();
+	
+	public void verlaeufePlotten();
 }

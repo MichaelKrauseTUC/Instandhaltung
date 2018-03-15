@@ -12,7 +12,7 @@ import cern.colt.matrix.impl.DenseDoubleMatrix1D;
  * @author mkrause
  *
  */
-public class CAlgorithmusZufall implements IAlgorithmus {
+public class CAlgorithmusZufall extends AAlgorithmus {
 
 	private CZustand zustand;
 	private final int zeit = 3;
