@@ -90,7 +90,7 @@ public class CAlgorithmusZufall extends AAlgorithmus {
 				leistungsHistorieC1 = komponenten.get(0).getLeistungHistory();
 				leistungsHistorieC2 = komponenten.get(1).getLeistungHistory();
 				leistungsHistorieC3 = komponenten.get(2).getLeistungHistory();
-				leistungsHistorieSystem=serSys.getSystemleistungHistorie();
+				leistungsHistorieSystem = serSys.getSystemleistungHistorie();
 
 			}
 			zustand.setBudget(gesamtBudget);
@@ -133,14 +133,12 @@ public class CAlgorithmusZufall extends AAlgorithmus {
 	@Override
 	public void verlaeufeUeberZeitPlotten() {
 
-		// for (int i = 0; i < beststate.getComponents().size(); i++) {
-		// Component c = beststate.getComponents().get(i);
-		//
-		// CWindow w = new CWindow("g" + i, "g", zeit, c.getgHistory());
-		//
-		// }
+		CWindow w1 = new CWindow("g" + 1, "g", zeit, leistungsHistorieC1);
+		CWindow w2 = new CWindow("g" + 2, "g", zeit, leistungsHistorieC1);
+		CWindow w3 = new CWindow("g" + 3, "g", zeit, leistungsHistorieC1);
+
 		// // visualisierung des verlaufs zfwOpt �ber die Zeit
-		// CWindow w = new CWindow("f", "f", numPeriods, beststate.getValueHistory());
+		CWindow w = new CWindow("f", "f", zeit, leistungsHistorieSystem);
 
 	}
 
