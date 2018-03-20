@@ -73,7 +73,7 @@ public class CAlgorithmusTest implements IAlgorithmus {
 	}
 
 	@Override
-	public void verlaeufePlotten() {
+	public void verlaeufeUeberZeitPlotten() {
 		// TODO Auto-generated method stub
 		
 	}

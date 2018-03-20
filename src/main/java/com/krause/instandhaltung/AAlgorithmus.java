@@ -25,7 +25,7 @@ public abstract class AAlgorithmus implements IAlgorithmus {
 	private ArrayList<DoubleMatrix2D> leistungHistory;
 	private ArrayList<IKomponente> komponenten;
 
-	public void verlaeufePlotten() {
+	public void verlaeufeUeberZeitPlotten() {
 		// for (int i = 0; i < beststate.getComponents().size(); i++) {
 		// Component c = beststate.getComponents().get(i);
 		//

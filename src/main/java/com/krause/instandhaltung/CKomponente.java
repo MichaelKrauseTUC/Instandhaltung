@@ -1,5 +1,7 @@
 package com.krause.instandhaltung;
 
+import java.util.ArrayList;
+
 /**
  * 
  * @author mkrause
@@ -9,6 +11,11 @@ package com.krause.instandhaltung;
 public class CKomponente implements IKomponente {
 
 	private double leistung;
+	private ArrayList<Double> leistungHistory;
+
+	public ArrayList<Double> getLeistungHistory() {
+		return leistungHistory;
+	}
 
 	/**
 	 * 
@@ -36,6 +43,7 @@ public class CKomponente implements IKomponente {
 	public CKomponente(IVerschleiss verschleiss, IInvestEinfluss invEinfluss) {
 		this.verschleiss = verschleiss;
 		this.invEinfluss = invEinfluss;
+		leistungHistory = new ArrayList<>();
 	}
 
 	/**
@@ -55,6 +63,7 @@ public class CKomponente implements IKomponente {
 				+ invEinfluss.getInvestEinfluss(invest, leistung, verschleiss.getErwVerschleiss(leistung));
 		if (leistung < 0)
 			leistung = 0;
+		leistungHistory.add(leistung);
 	}
 
 	@Override

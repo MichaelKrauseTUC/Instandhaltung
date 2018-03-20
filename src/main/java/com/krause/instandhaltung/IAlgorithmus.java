@@ -45,5 +45,5 @@ public interface IAlgorithmus {
 	 */
 	public ArrayList<DoubleMatrix2D> getHistory();
 	
-	public void verlaeufePlotten();
+	public void verlaeufeUeberZeitPlotten();
 }
