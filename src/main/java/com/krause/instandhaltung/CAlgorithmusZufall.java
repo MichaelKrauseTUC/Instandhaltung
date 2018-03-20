@@ -20,6 +20,7 @@ public class CAlgorithmusZufall extends AAlgorithmus {
 	private final double gesamtBudget = 1.0;
 	private ArrayList<Double> anfangsLeistung;
 
+	private CSerienSystem serSys;
 	private int anzKomponenten;
 	private DoubleMatrix1D invs;
 	private DoubleMatrix2D lsg;
@@ -29,9 +30,13 @@ public class CAlgorithmusZufall extends AAlgorithmus {
 	private double zfwOpt;
 	private ArrayList<DoubleMatrix2D> lsgHistory;
 	private ArrayList<IKomponente> komponenten;
+	private ArrayList<Double> leistungsHistorieC1;
+	private ArrayList<Double> leistungsHistorieC2;
+	private ArrayList<Double> leistungsHistorieC3;
+	private ArrayList<Double> leistungsHistorieSystem;
 
 	/**
-	 * Konstruktur f�r Zufallsalgorithmus (3-Komponenten-Seriensystem)
+	 * Konstruktor fuer Zufallsalgorithmus (3-Komponenten-Seriensystem)
 	 * 
 	 * @param anzahlIterationen
 	 *            Anzahl der Iterationen, die der Zufallsalgorithmus laufen soll
@@ -57,11 +62,15 @@ public class CAlgorithmusZufall extends AAlgorithmus {
 		for (IKomponente komp : komponenten) {
 			komp.setLeistung(anfangsLeistung.get(komponenten.indexOf(komp)));
 		}
-		CSerienSystem serSys = new CSerienSystem(komponenten);
+		serSys = new CSerienSystem(komponenten);
 		this.zustand = new CZustand(gesamtBudget, serSys);
 		anzKomponenten = zustand.getSystem().getKomponenten().size();
 		invs = new DenseDoubleMatrix1D(anzKomponenten);
 		lsgHistory = new ArrayList<>();
+		leistungsHistorieC1 = new ArrayList<>();
+		leistungsHistorieC2 = new ArrayList<>();
+		leistungsHistorieC3 = new ArrayList<>();
+		leistungsHistorieSystem = new ArrayList<>();
 	}
 
 	@Override
@@ -78,6 +87,11 @@ public class CAlgorithmusZufall extends AAlgorithmus {
 				zfwOpt = zfw;
 				lsgOpt = (DoubleMatrix2D) lsg.clone();
 				lsgHistory.add(this.getLoesung());
+				leistungsHistorieC1 = komponenten.get(0).getLeistungHistory();
+				leistungsHistorieC2 = komponenten.get(1).getLeistungHistory();
+				leistungsHistorieC3 = komponenten.get(2).getLeistungHistory();
+				leistungsHistorieSystem=serSys.getSystemleistungHistorie();
+
 			}
 			zustand.setBudget(gesamtBudget);
 			for (IKomponente komp : komponenten) {
@@ -89,7 +103,7 @@ public class CAlgorithmusZufall extends AAlgorithmus {
 	private void innererAlgorithmus() {
 		zfw = 0;
 		lsg = D.random(anzKomponenten, zeit);
-		// L�sungsmatrix normieren, damit Gesamtbudget von 1 nicht �berschritten wird
+		// Loesungsmatrix normieren, damit Gesamtbudget von 1 nicht ueberschritten wird
 		double sum = lsg.zSum();
 		for (int i = 0; i < anzKomponenten; i++) {
 			for (int t = 0; t < zeit; t++) {
@@ -114,6 +128,20 @@ public class CAlgorithmusZufall extends AAlgorithmus {
 	@Override
 	public DoubleMatrix2D getLoesung() {
 		return lsgOpt;
+	}
+
+	@Override
+	public void verlaeufeUeberZeitPlotten() {
+
+		// for (int i = 0; i < beststate.getComponents().size(); i++) {
+		// Component c = beststate.getComponents().get(i);
+		//
+		// CWindow w = new CWindow("g" + i, "g", zeit, c.getgHistory());
+		//
+		// }
+		// // visualisierung des verlaufs zfwOpt �ber die Zeit
+		// CWindow w = new CWindow("f", "f", numPeriods, beststate.getValueHistory());
+
 	}
 
 }

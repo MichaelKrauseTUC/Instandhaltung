@@ -17,6 +17,12 @@ public abstract class ASystem implements ISystem {
 	 */
 	protected ArrayList<IKomponente> komponenten;
 
+	protected ArrayList<Double> systemleistungHistorie;
+
+	public ArrayList<Double> getSystemleistungHistorie() {
+		return systemleistungHistorie;
+	}
+
 	/**
 	 * initialisiert ein System mit dessen Komponenten
 	 * 
@@ -25,6 +31,7 @@ public abstract class ASystem implements ISystem {
 	 */
 	public ASystem(ArrayList<IKomponente> komponenten) {
 		this.komponenten = komponenten;
+		systemleistungHistorie = new ArrayList<>();
 	}
 
 	/**

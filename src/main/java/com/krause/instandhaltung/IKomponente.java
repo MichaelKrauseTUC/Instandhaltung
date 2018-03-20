@@ -1,5 +1,7 @@
 package com.krause.instandhaltung;
 
+import java.util.ArrayList;
+
 /**
  * Interface stellt sicher, dass man von jeder Komponente die Leistung auslesen
  * und einen Zeitschritt durchf�hren kann
@@ -29,4 +31,6 @@ public interface IKomponente {
 	 * @param leistung
 	 */
 	public void setLeistung(Double leistung);
+	
+	public ArrayList<Double> getLeistungHistory();
 }

@@ -23,4 +23,6 @@ public interface ISystem {
  * @return Liste von Komponenten
  */
 	public ArrayList<IKomponente> getKomponenten();
+	
+	public ArrayList<Double> getSystemleistungHistorie();
 }

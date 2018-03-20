@@ -76,6 +76,6 @@ public class CKomponente implements IKomponente {
 	 */
 	public void setLeistung(Double leistung) {
 		this.leistung = leistung;
-
+		this.leistungHistory.add(leistung);
 	}
 }

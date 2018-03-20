@@ -31,6 +31,7 @@ public class CSerienSystem extends ASystem {
 			if (iKomponente.getLeistung() < min)
 				min = iKomponente.getLeistung();
 		}
+		systemleistungHistorie.add(min);
 		return min;
 	}
 

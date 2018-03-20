@@ -25,15 +25,4 @@ public abstract class AAlgorithmus implements IAlgorithmus {
 	private ArrayList<DoubleMatrix2D> leistungHistory;
 	private ArrayList<IKomponente> komponenten;
 
-	public void verlaeufeUeberZeitPlotten() {
-		// for (int i = 0; i < beststate.getComponents().size(); i++) {
-		// Component c = beststate.getComponents().get(i);
-		//
-		// CWindow w = new CWindow("g" + i, "g", zeit, c.getgHistory());
-		//
-		// }
-		// // visualisierung des verlaufs zfwOpt �ber die Zeit
-		// CWindow w = new CWindow("f", "f", numPeriods, beststate.getValueHistory());
-	}
-
 }

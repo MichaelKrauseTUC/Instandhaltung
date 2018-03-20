@@ -69,6 +69,11 @@ public class CKomponenteAlter implements IKomponente{
 		// TODO Auto-generated method stub
 		
 	}
+	@Override
+	public ArrayList<Double> getLeistungHistory() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	
 	
