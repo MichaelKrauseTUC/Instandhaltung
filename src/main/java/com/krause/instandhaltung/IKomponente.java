@@ -33,4 +33,6 @@ public interface IKomponente {
 	public void setLeistung(Double leistung);
 	
 	public ArrayList<Double> getLeistungHistory();
+
+	public IKomponente clone();
 }

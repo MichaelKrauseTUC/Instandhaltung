@@ -75,6 +75,9 @@ public class CKomponenteAlter implements IKomponente{
 		return null;
 	}
 
+	public CKomponenteAlter clone() {
+		return this;
+	}
 	
 	
 	

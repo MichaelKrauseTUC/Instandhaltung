@@ -78,4 +78,10 @@ public class CKomponente implements IKomponente {
 		this.leistung = leistung;
 		this.leistungHistory.add(leistung);
 	}
+	
+	public CKomponente clone() {
+		CKomponente hilf = new CKomponente(verschleiss, invEinfluss);
+		hilf.setLeistung(leistung);
+		return hilf;
+	}
 }
