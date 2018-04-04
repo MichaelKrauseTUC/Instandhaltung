@@ -38,6 +38,8 @@ public class CAlgorithmusGrenznutzenMethode extends AAlgorithmus {
 	private ArrayList<IKomponente> komponenten;
 	private CSerienSystem serSys;
 	private ArrayList<Integer> komponentenListeCPlus;
+	private int zweitMaxArgGrenznutzen;
+	private double zweitMaxGrenznutzen;
 
 	@Override
 	public void initialisieren() {
@@ -80,8 +82,8 @@ public class CAlgorithmusGrenznutzenMethode extends AAlgorithmus {
 		while (gesamtBudget>0) {
 			if (komponentenListeCPlus.size()<anzKomponenten)
 			{
-				int zweitMaxArgGrenznutzen=-1;
-				double zweitMaxGrenznutzen=Double.MIN_VALUE;
+				zweitMaxArgGrenznutzen=-1;
+				zweitMaxGrenznutzen=Double.MIN_VALUE;
 				for (int i = 0; i < grenznutzen.length; i++) {
 					if (komponentenListeCPlus.contains(i))
 						break;
@@ -101,10 +103,13 @@ public class CAlgorithmusGrenznutzenMethode extends AAlgorithmus {
  */
 	private double kleinstesBBestimmen() {
 		double b=0;
-		for (int i = 0; i < komponentenListeCPlus.size(); i++) {
+		for (int j = 0; j < komponentenListeCPlus.size(); j++) {
+			int i = komponentenListeCPlus.get(j);
+			invs.set(i, invs.get(i)+granularitaet);
 			
 		}
-		return 0;
+		
+		return b;
 	}
 
 	private void grenznutzenBerechnen(double inv) {
