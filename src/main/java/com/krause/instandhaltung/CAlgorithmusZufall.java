@@ -1,6 +1,8 @@
 package com.krause.instandhaltung;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+
 import cern.colt.matrix.DoubleFactory2D;
 import cern.colt.matrix.DoubleMatrix1D;
 import cern.colt.matrix.DoubleMatrix2D;
@@ -30,10 +32,10 @@ public class CAlgorithmusZufall extends AAlgorithmus {
 	private double zfwOpt;
 	private ArrayList<DoubleMatrix2D> lsgHistory;
 	private ArrayList<IKomponente> komponenten;
-	private ArrayList<Double> leistungsHistorieC1;
-	private ArrayList<Double> leistungsHistorieC2;
-	private ArrayList<Double> leistungsHistorieC3;
-	private ArrayList<Double> leistungsHistorieSystem;
+	private LinkedList<Double> leistungsHistorieC1;
+	private LinkedList<Double> leistungsHistorieC2;
+	private LinkedList<Double> leistungsHistorieC3;
+	private LinkedList<Double> leistungsHistorieSystem;
 
 	/**
 	 * Konstruktor fuer Zufallsalgorithmus (3-Komponenten-Seriensystem)
@@ -48,29 +50,27 @@ public class CAlgorithmusZufall extends AAlgorithmus {
 	@Override
 	public void initialisieren() {
 		anfangsLeistung = new ArrayList<>();
-		anfangsLeistung.add(1.0);
-		anfangsLeistung.add(1.0);
-		anfangsLeistung.add(0.9);
 		CKomponente c1 = new CKomponente(new CVerschleissNormalverteilt(0.4, 0.4),
-				new CKonkaverInvestEinflussExponential(5));
-		CKomponente c2 = new CKomponente(new CKonstanterVerschleiss(0.4), new CKonstanterInvestEinfluss());
-		CKomponente c3 = new CKomponente(new CKonstanterVerschleiss(0.3), new CKonstanterInvestEinfluss());
+				new CKonkaverInvestEinflussExponential(5),1.0);
+		CKomponente c2 = new CKomponente(new CKonstanterVerschleiss(0.4), new CKonstanterInvestEinfluss(),1.0);
+		CKomponente c3 = new CKomponente(new CKonstanterVerschleiss(0.3), new CKonstanterInvestEinfluss(),0.9);
 		komponenten = new ArrayList<>();
 		komponenten.add(c1);
 		komponenten.add(c2);
 		komponenten.add(c3);
-		for (IKomponente komp : komponenten) {
-			komp.setLeistung(anfangsLeistung.get(komponenten.indexOf(komp)));
-		}
+		
 		serSys = new CSerienSystem(komponenten);
 		this.zustand = new CZustand(gesamtBudget, serSys);
 		anzKomponenten = zustand.getSystem().getKomponenten().size();
+		for (int i = 0; i < anzKomponenten; i++) {
+			anfangsLeistung.add(komponenten.get(i).getLeistung());
+		}
 		invs = new DenseDoubleMatrix1D(anzKomponenten);
 		lsgHistory = new ArrayList<>();
-		leistungsHistorieC1 = new ArrayList<>();
-		leistungsHistorieC2 = new ArrayList<>();
-		leistungsHistorieC3 = new ArrayList<>();
-		leistungsHistorieSystem = new ArrayList<>();
+		leistungsHistorieC1 = new LinkedList<>();
+		leistungsHistorieC2 = new LinkedList<>();
+		leistungsHistorieC3 = new LinkedList<>();
+		leistungsHistorieSystem = new LinkedList<>();
 	}
 
 	@Override

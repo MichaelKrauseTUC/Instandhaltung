@@ -20,15 +20,12 @@ public class CAlgorithmusTest implements IAlgorithmus {
 
 	@Override
 	public void initialisieren() {
-		CKomponente c1 = new CKomponente(new CKonstanterVerschleiss(0.5), new CKonstanterInvestEinfluss());
-		CKomponente c2 = new CKomponente(new CKonstanterVerschleiss(0.4), new CKonstanterInvestEinfluss());
+		CKomponente c1 = new CKomponente(new CKonstanterVerschleiss(0.5), new CKonstanterInvestEinfluss(),1.0);
+		CKomponente c2 = new CKomponente(new CKonstanterVerschleiss(0.4), new CKonstanterInvestEinfluss(),1.0);
 		ArrayList<IKomponente> komponenten = new ArrayList<>();
 		ArrayList<Double> anfangsLeistung = new ArrayList<>();
-		anfangsLeistung.add(1.0);
-		anfangsLeistung.add(1.0);
-		for (IKomponente komp : komponenten) {
-			komp.setLeistung(anfangsLeistung.get(komponenten.indexOf(komp)));
-		}
+		
+		
 		komponenten.add(c1);
 		komponenten.add(c2);
 		CSerienSystem serSys = new CSerienSystem(komponenten);

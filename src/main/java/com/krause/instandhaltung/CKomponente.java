@@ -1,6 +1,7 @@
 package com.krause.instandhaltung;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  * 
@@ -11,9 +12,9 @@ import java.util.ArrayList;
 public class CKomponente implements IKomponente {
 
 	private double leistung;
-	private ArrayList<Double> leistungHistory;
+	private LinkedList<Double> leistungHistory;
 
-	public ArrayList<Double> getLeistungHistory() {
+	public LinkedList<Double> getLeistungHistory() {
 		return leistungHistory;
 	}
 
@@ -40,10 +41,12 @@ public class CKomponente implements IKomponente {
 	 *            Grenznutzen eingearbeitet werden; ggf. noch Abh�ngigkeit von
 	 *            Leistung integrieren?
 	 */
-	public CKomponente(IVerschleiss verschleiss, IInvestEinfluss invEinfluss) {
+	public CKomponente(IVerschleiss verschleiss, IInvestEinfluss invEinfluss, double leistung) {
 		this.verschleiss = verschleiss;
 		this.invEinfluss = invEinfluss;
-		leistungHistory = new ArrayList<>();
+		this.leistung = leistung;
+		leistungHistory = new LinkedList<>();
+		leistungHistory.add(leistung);
 	}
 
 	/**
@@ -65,7 +68,20 @@ public class CKomponente implements IKomponente {
 			leistung = 0;
 		leistungHistory.add(leistung);
 	}
+	
+	public void leistungNSchritteZurueck(int n) {
+		double leist=0;
+		for (int i = 0; i <= n; i++) {
+			leist=leistungHistory.removeLast();
+		} 
+		this.setLeistung(leist);
+	}
 
+	public void leistungSchrittZurueck() {
+		double leist=leistungHistory.removeLast();
+		 
+		this.setLeistung(leistungHistory.getLast());
+	}
 	@Override
 	/**
 	 * aktuelle Leistung wird gesetzt
@@ -79,9 +95,9 @@ public class CKomponente implements IKomponente {
 		this.leistungHistory.add(leistung);
 	}
 	
-	public CKomponente clone() {
-		CKomponente hilf = new CKomponente(verschleiss, invEinfluss);
-		hilf.setLeistung(leistung);
-		return hilf;
-	}
+//	public CKomponente clone() {
+//		CKomponente hilf = new CKomponente(verschleiss, invEinfluss);
+//		hilf.setLeistung(leistung);
+//		return hilf;
+//	}
 }

@@ -1,6 +1,7 @@
 package com.krause.instandhaltung;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  * Abstrakte Klasse, um Feld "komponenten" nicht neu anlegen zu m�ssen
@@ -17,9 +18,9 @@ public abstract class ASystem implements ISystem {
 	 */
 	protected ArrayList<IKomponente> komponenten;
 
-	protected ArrayList<Double> systemleistungHistorie;
+	protected LinkedList<Double> systemleistungHistorie;
 
-	public ArrayList<Double> getSystemleistungHistorie() {
+	public LinkedList<Double> getSystemleistungHistorie() {
 		return systemleistungHistorie;
 	}
 
@@ -31,7 +32,7 @@ public abstract class ASystem implements ISystem {
 	 */
 	public ASystem(ArrayList<IKomponente> komponenten) {
 		this.komponenten = komponenten;
-		systemleistungHistorie = new ArrayList<>();
+		systemleistungHistorie = new LinkedList<>();
 	}
 
 	/**

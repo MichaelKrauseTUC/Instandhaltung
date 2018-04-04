@@ -2,6 +2,9 @@ package com.krause.instandhaltung;
 
 import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -33,7 +36,7 @@ public class CWindow extends ApplicationFrame {
 	 * @param data
 	 *            Liste von Double-Datenpunkten, die zu den Perioden geh�ren
 	 */
-	public CWindow(String title, String titleYAxis, int numPeriods, ArrayList<Double> data) {
+	public CWindow(String title, String titleYAxis, int numPeriods, LinkedList<Double> data) {
 		super(title);
 		JFreeChart xylineChart = ChartFactory.createXYLineChart(title, "Time", titleYAxis,
 				createDataset(numPeriods, data), PlotOrientation.VERTICAL, true, true, false);
@@ -50,8 +53,9 @@ public class CWindow extends ApplicationFrame {
 	 * @param data
 	 *            zu den Perioden geh�rige Y-Werte
 	 * @return Punktepaare, wobei nun X-Wert vom Typ double
+	 * @todo get(i) von data später mit Iterator?
 	 */
-	private XYDataset createDataset(int numPeriods, ArrayList<Double> data) {
+	private XYDataset createDataset(int numPeriods, List<Double> data) {
 		final XYSeries series = new XYSeries("");
 		for (int i = 0; i < numPeriods; i++) {
 			series.add((double) (i), data.get(i));

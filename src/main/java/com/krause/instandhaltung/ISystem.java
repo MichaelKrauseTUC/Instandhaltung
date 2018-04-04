@@ -1,6 +1,7 @@
 package com.krause.instandhaltung;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  * stellt sicher, dass System aus Komponenten gebildet werden und ein
@@ -24,5 +25,5 @@ public interface ISystem {
  */
 	public ArrayList<IKomponente> getKomponenten();
 	
-	public ArrayList<Double> getSystemleistungHistorie();
+	public LinkedList<Double> getSystemleistungHistorie();
 }

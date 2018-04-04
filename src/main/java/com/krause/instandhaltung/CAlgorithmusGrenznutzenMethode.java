@@ -1,6 +1,8 @@
 package com.krause.instandhaltung;
 
 import java.util.ArrayList;
+import java.util.Collections;
+
 import cern.colt.matrix.DoubleFactory2D;
 import cern.colt.matrix.DoubleMatrix1D;
 import cern.colt.matrix.DoubleMatrix2D;
@@ -37,13 +39,9 @@ public class CAlgorithmusGrenznutzenMethode extends AAlgorithmus {
 	@Override
 	public void initialisieren() {
 		anfangsLeistung = new ArrayList<>();
-		anfangsLeistung.add(1.0);
-		anfangsLeistung.add(1.0);
-		anfangsLeistung.add(0.9);
-		CKomponente c1 = new CKomponente(new CVerschleissNormalverteilt(0.4, 0.4),
-				new CKonkaverInvestEinflussExponential(5));
-		CKomponente c2 = new CKomponente(new CKonstanterVerschleiss(0.4), new CKonstanterInvestEinfluss());
-		CKomponente c3 = new CKomponente(new CKonstanterVerschleiss(0.3), new CKonstanterInvestEinfluss());
+		CKomponente c1 = new CKomponente(new CKonstanterVerschleiss(0.4), new CKonkaverInvestEinflussExponential(5),1.0);
+		CKomponente c2 = new CKomponente(new CKonstanterVerschleiss(0.4), new CKonkaverInvestEinflussExponential(4),1.0);
+		CKomponente c3 = new CKomponente(new CKonstanterVerschleiss(0.3), new CKonkaverInvestEinflussExponential(6),0.9);
 		komponenten = new ArrayList<>();
 		komponenten.add(c1);
 		komponenten.add(c2);
@@ -51,9 +49,13 @@ public class CAlgorithmusGrenznutzenMethode extends AAlgorithmus {
 		for (IKomponente komp : komponenten) {
 			komp.setLeistung(anfangsLeistung.get(komponenten.indexOf(komp)));
 		}
-
+		gesamtBudget = 1.0;
+		serSys = new CSerienSystem(komponenten);
 		this.zustand = new CZustand(gesamtBudget, serSys);
 		anzKomponenten = zustand.getSystem().getKomponenten().size();
+		for (int i = 0; i < anzKomponenten; i++) {
+			anfangsLeistung.add(komponenten.get(i).getLeistung());
+		}
 		invs = new DenseDoubleMatrix1D(anzKomponenten);
 		lsgHistory = new ArrayList<>();
 		grenznutzen = new ArrayList<>();
@@ -63,20 +65,17 @@ public class CAlgorithmusGrenznutzenMethode extends AAlgorithmus {
 	@Override
 	public void ausfuehren() {
 		grenznutzen = grenznutzenBerechnen();
+		double maxGrenznutzen = Collections.max(grenznutzen);
+		System.out.println(maxGrenznutzen);
 	}
 
 	private ArrayList<Double> grenznutzenBerechnen() {
 		double zfwVorher = serSys.strukturfunktionBerechnen();
 		for (int i = 0; i < anzKomponenten; i++) {
-			IKomponente hilfskomp = komponenten.get(i).clone();
-			IKomponente originalkomp = komponenten.get(i);
-			hilfskomp.zeitschrittDurchfuehren(0.01);
-			serSys.komponenten.remove(i);
-			serSys.komponenten.add(i, hilfskomp);
+			komponenten.get(i).zeitschrittDurchfuehren(0.01);
 			double zfwNachher = serSys.strukturfunktionBerechnen();
 			grenznutzen.add(zfwNachher - zfwVorher);
-			serSys.komponenten.remove(i);
-			serSys.komponenten.add(i,originalkomp);
+			komponenten.get(i).leistungSchrittZurueck();
 		}
 		return grenznutzen;
 	}

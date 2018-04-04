@@ -1,6 +1,6 @@
 package com.krause.instandhaltung;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  * Interface stellt sicher, dass man von jeder Komponente die Leistung auslesen
@@ -32,7 +32,9 @@ public interface IKomponente {
 	 */
 	public void setLeistung(Double leistung);
 	
-	public ArrayList<Double> getLeistungHistory();
+	public LinkedList<Double> getLeistungHistory();
 
-	public IKomponente clone();
+	public void leistungSchrittZurueck();
+	
+	public void leistungNSchritteZurueck(int n);
 }

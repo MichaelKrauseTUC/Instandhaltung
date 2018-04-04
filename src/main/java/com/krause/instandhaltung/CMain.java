@@ -27,14 +27,17 @@ public class CMain {
 	 */
 	public static void main(String[] args) {
 
-		CAlgorithmusZufall algo2 = new CAlgorithmusZufall(100);
-		algo2.initialisieren();
-		algo2.ausfuehren();
-		double zfw = algo2.getZielfunktionswert();
-		System.out.println(zfw);
-		DoubleMatrix2D lsg = algo2.getLoesung();
-		System.out.println(lsg);
-		algo2.verlaeufeUeberZeitPlotten();
+		CAlgorithmusGrenznutzenMethode algo3 = new CAlgorithmusGrenznutzenMethode();
+		algo3.initialisieren();
+		algo3.ausfuehren();
+//		CAlgorithmusZufall algo2 = new CAlgorithmusZufall(100);
+//		algo2.initialisieren();
+//		algo2.ausfuehren();
+//		double zfw = algo2.getZielfunktionswert();
+//		System.out.println(zfw);
+//		DoubleMatrix2D lsg = algo2.getLoesung();
+//		System.out.println(lsg);
+//		algo2.verlaeufeUeberZeitPlotten();
 		// ArrayList<DoubleMatrix2D> lsgHistory = algo2.getHistory();
 
 		// CAlgorithmusTest algo1 = new CAlgorithmusTest();

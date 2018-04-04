@@ -1,6 +1,7 @@
 package com.krause.instandhaltung;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class CKomponenteAlter implements IKomponente{
 	private double a;
@@ -70,13 +71,23 @@ public class CKomponenteAlter implements IKomponente{
 		
 	}
 	@Override
-	public ArrayList<Double> getLeistungHistory() {
+	public LinkedList<Double> getLeistungHistory() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public CKomponenteAlter clone() {
 		return this;
+	}
+	@Override
+	public void leistungSchrittZurueck() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void leistungNSchritteZurueck(int n) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	
