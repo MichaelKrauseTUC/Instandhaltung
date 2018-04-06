@@ -49,12 +49,12 @@ public class CAlgorithmusNutzenMethode extends AAlgorithmus {
 	@Override
 	public void initialisieren() {
 
-		CKomponente c1 = new CKomponente(new CKonstanterVerschleiss(0.3), new CKonkaverInvestEinflussExponential(3.9),
+		CKomponente c1 = new CKomponente(new CKonstanterVerschleiss(0.39), new CKonkaverInvestEinflussExponential(4),
 				1.0);
 		CKomponente c2 = new CKomponente(new CKonstanterVerschleiss(0.4), new CKonkaverInvestEinflussExponential(4),
 				1.0);
-		CKomponente c3 = new CKomponente(new CKonstanterVerschleiss(0.3), new CKonkaverInvestEinflussExponential(4.1),
-				0.9);
+		CKomponente c3 = new CKomponente(new CKonstanterVerschleiss(0.41), new CKonkaverInvestEinflussExponential(4),
+				1.0);
 		komponenten = new ArrayList<>();
 		komponenten.add(c1);
 		komponenten.add(c2);
@@ -101,7 +101,9 @@ public class CAlgorithmusNutzenMethode extends AAlgorithmus {
 	public void budgetVerteilen(double restbudget) {
 		while (restbudget > 0) {
 			double b = Math.min(GRANULARITAET, restbudget);
-			nutzenBerechnen(b);
+			for (int i = 0; i < anzKomponenten; i++) {
+				nutzen[i] = nutzenBerechnenEinzel(komponenten.get(i), b+invs.get(i));
+			}
 			int maxArgNutzen = -1;
 			double maxNutzen = -Double.MAX_VALUE;
 			for (int i = 0; i < nutzen.length; i++) {
@@ -121,13 +123,11 @@ public class CAlgorithmusNutzenMethode extends AAlgorithmus {
 	 *         auf den zweitniedrigsten Wert drueckt
 	 */
 
-	private void nutzenBerechnen(double inv) {
-		for (int i = 0; i < anzKomponenten; i++) {
-			komponenten.get(i).zeitschrittDurchfuehren(inv);
-			double zfwNachher = serSys.strukturfunktionBerechnen();
-			nutzen[i] = zfwNachher;
-			komponenten.get(i).leistungSchrittZurueck();
-		}
+	private double nutzenBerechnenEinzel(IKomponente komp, double inv) {
+		komp.zeitschrittDurchfuehren(inv);
+		double zfwNachher = serSys.strukturfunktionBerechnen();
+		komp.leistungSchrittZurueck();
+		return zfwNachher;
 	}
 
 	@Override

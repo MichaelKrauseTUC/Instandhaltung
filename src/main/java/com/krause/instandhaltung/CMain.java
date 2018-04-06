@@ -27,9 +27,11 @@ public class CMain {
 	 */
 	public static void main(String[] args) {
 
-		CAlgorithmusGrenznutzenMethode algo3 = new CAlgorithmusGrenznutzenMethode();
+		CAlgorithmusNutzenMethode algo3 = new CAlgorithmusNutzenMethode(1, 2, 0 );
 		algo3.initialisieren();
 		algo3.ausfuehren();
+		System.out.println(algo3.getZielfunktionswert());
+		System.out.println(algo3.getLoesung());
 //		CAlgorithmusZufall algo2 = new CAlgorithmusZufall(100);
 //		algo2.initialisieren();
 //		algo2.ausfuehren();
