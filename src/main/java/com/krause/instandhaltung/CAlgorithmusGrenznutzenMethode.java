@@ -44,12 +44,12 @@ public class CAlgorithmusGrenznutzenMethode extends AAlgorithmus {
 	@Override
 	public void initialisieren() {
 
-		CKomponente c1 = new CKomponente(new CKonstanterVerschleiss(0), new CKonkaverInvestEinflussExponential(0.39),
-				0.9);
-		CKomponente c2 = new CKomponente(new CKonstanterVerschleiss(0), new CKonkaverInvestEinflussExponential(4),
-				0.9);
-		CKomponente c3 = new CKomponente(new CKonstanterVerschleiss(0), new CKonkaverInvestEinflussExponential(4.1),
-				0.9);
+		CKomponente c1 = new CKomponente(new CKonstanterVerschleiss(0.3), new CKonkaverInvestEinflussExponential(3.9),
+				1.0);
+		CKomponente c2 = new CKomponente(new CKonstanterVerschleiss(0.4), new CKonkaverInvestEinflussExponential(4),
+				1.0);
+		CKomponente c3 = new CKomponente(new CKonstanterVerschleiss(0.3), new CKonkaverInvestEinflussExponential(4.1),
+				1.0);
 		komponenten = new ArrayList<>();
 		komponenten.add(c1);
 		komponenten.add(c2);

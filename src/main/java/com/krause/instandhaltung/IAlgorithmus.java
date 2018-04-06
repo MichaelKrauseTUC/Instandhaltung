@@ -2,6 +2,7 @@ package com.krause.instandhaltung;
 
 import java.util.ArrayList;
 
+import cern.colt.matrix.DoubleMatrix1D;
 import cern.colt.matrix.DoubleMatrix2D;
 
 /**

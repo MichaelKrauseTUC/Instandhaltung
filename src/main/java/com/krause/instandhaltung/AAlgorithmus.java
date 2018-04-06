@@ -11,7 +11,7 @@ public abstract class AAlgorithmus implements IAlgorithmus {
 	private CZustand zustand;
 	private int zeit;
 	private int anzahlIterationen;
-	private double gesamtBudget;
+	private double budget;
 	private ArrayList<Double> anfangsLeistung;
 
 	private int anzKomponenten;
