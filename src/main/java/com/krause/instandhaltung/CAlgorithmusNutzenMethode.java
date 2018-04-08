@@ -49,11 +49,11 @@ public class CAlgorithmusNutzenMethode extends AAlgorithmus {
 	@Override
 	public void initialisieren() {
 
-		CKomponente c1 = new CKomponente(new CKonstanterVerschleiss(0.39), new CKonkaverInvestEinflussExponential(4),
+		CKomponente c1 = new CKomponente(new CVerschleissNormalverteilt(0.39, 0.01), new CKonkaverInvestEinflussExponential(4),
 				1.0);
-		CKomponente c2 = new CKomponente(new CKonstanterVerschleiss(0.4), new CKonkaverInvestEinflussExponential(4),
+		CKomponente c2 = new CKomponente(new CVerschleissNormalverteilt(0.4, 0.01), new CKonkaverInvestEinflussExponential(4),
 				1.0);
-		CKomponente c3 = new CKomponente(new CKonstanterVerschleiss(0.41), new CKonkaverInvestEinflussExponential(4),
+		CKomponente c3 = new CKomponente(new CVerschleissNormalverteilt(0.41, 0.01), new CKonkaverInvestEinflussExponential(4),
 				1.0);
 		komponenten = new ArrayList<>();
 		komponenten.add(c1);
@@ -77,11 +77,14 @@ public class CAlgorithmusNutzenMethode extends AAlgorithmus {
 
 	@Override
 	public void ausfuehren() {
+		double zfwSumme=0;
 		for (int j = 0; j < anzahlIterationen; j++) {
 			restbudget = anfangsbudget;
 			budgetVerteilen(restbudget);
 			lsgHistory.add(invs);
+			invs = new DenseDoubleMatrix1D(anzKomponenten);
 			invs.assign(0);
+			zfwSumme+=zfw;
 		}
 		DoubleMatrix1D mittelwertKomponenten = new DenseDoubleMatrix1D(anzKomponenten);
 		mittelwertKomponenten.assign(0);
@@ -96,14 +99,13 @@ public class CAlgorithmusNutzenMethode extends AAlgorithmus {
 		for (int i = 0; i < anzKomponenten; i++) {
 			lsg.set(i, 0, mittelwertKomponenten.get(i));
 		}
+		zfwOpt=zfwSumme/anzahlIterationen;
 	}
 
 	public void budgetVerteilen(double restbudget) {
 		while (restbudget > 0) {
 			double b = Math.min(GRANULARITAET, restbudget);
-			for (int i = 0; i < anzKomponenten; i++) {
-				nutzen[i] = nutzenBerechnenEinzel(komponenten.get(i), b+invs.get(i));
-			}
+			nutzenBerechnen(b);
 			int maxArgNutzen = -1;
 			double maxNutzen = -Double.MAX_VALUE;
 			for (int i = 0; i < nutzen.length; i++) {
@@ -118,22 +120,31 @@ public class CAlgorithmusNutzenMethode extends AAlgorithmus {
 		}
 	}
 
+	private void nutzenBerechnen(double b) {
+		for (int j = 0; j < anzKomponenten; j++) {
+			for (int i = 0; i < anzKomponenten; i++) {
+				if (i == j)
+					komponenten.get(i).zeitschrittDurchfuehren(invs.get(i) + b);
+				else
+					komponenten.get(i).zeitschrittDurchfuehren(invs.get(i));
+			}
+			nutzen[j] = serSys.strukturfunktionBerechnen();
+			for (int i = 0; i < anzKomponenten; i++) {
+				komponenten.get(i).leistungSchrittZurueck();
+			}
+		}
+
+	}
+
 	/**
 	 * @return kleinstes b, dass die Ableitung des maximalen Grenznutzens nach unten
 	 *         auf den zweitniedrigsten Wert drueckt
 	 */
 
-	private double nutzenBerechnenEinzel(IKomponente komp, double inv) {
-		komp.zeitschrittDurchfuehren(inv);
-		double zfwNachher = serSys.strukturfunktionBerechnen();
-		komp.leistungSchrittZurueck();
-		return zfwNachher;
-	}
-
 	@Override
 	public double getZielfunktionswert() {
 		// TODO Auto-generated method stub
-		return this.zfw;
+		return this.zfwOpt;
 	}
 
 	public DoubleMatrix2D getLoesung() {
