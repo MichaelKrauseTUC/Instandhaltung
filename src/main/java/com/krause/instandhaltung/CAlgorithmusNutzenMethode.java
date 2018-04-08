@@ -1,11 +1,6 @@
 package com.krause.instandhaltung;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-
-import cern.colt.matrix.DoubleFactory2D;
 import cern.colt.matrix.DoubleMatrix1D;
 import cern.colt.matrix.DoubleMatrix2D;
 import cern.colt.matrix.impl.DenseDoubleMatrix1D;
@@ -19,7 +14,7 @@ import cern.colt.matrix.impl.DenseDoubleMatrix2D;
  */
 public class CAlgorithmusNutzenMethode extends AAlgorithmus {
 
-	public static final double GRANULARITAET = 0.5; //default: 0.01
+	public static final double GRANULARITAET = 0.5; // default: 0.01
 	private CZustand zustand;
 	private CZustand anfangszustand;
 	private int zeit;
@@ -33,13 +28,13 @@ public class CAlgorithmusNutzenMethode extends AAlgorithmus {
 	private DoubleMatrix1D invs;
 	private DoubleMatrix1D lsgPeriode;
 	private DoubleMatrix2D lsgOpt;
-	private DoubleFactory2D D = DoubleFactory2D.dense;
+	// private DoubleFactory2D D = DoubleFactory2D.dense;
 	private double zfw;
 	private double zfwOpt;
 	private Double[] nutzen;
 	private ArrayList<DoubleMatrix1D> lsgHistoryEinzel;
 	private ArrayList<DoubleMatrix1D> lsgHistory;
-	private ArrayList<DoubleMatrix2D> leistungHistory;
+	// private ArrayList<DoubleMatrix2D> leistungHistory;
 	private ArrayList<IKomponente> komponenten;
 	private CSerienSystem serSys;
 	private Double[] zfwPeriode;
@@ -148,6 +143,7 @@ public class CAlgorithmusNutzenMethode extends AAlgorithmus {
 	}
 
 	public void budgetVerteilen(double restbudget) {
+		invs.assign(0);
 		while (restbudget > 0) {
 			double b = Math.min(GRANULARITAET, restbudget);
 			nutzenBerechnen(b);
@@ -172,7 +168,7 @@ public class CAlgorithmusNutzenMethode extends AAlgorithmus {
 			budgetVerteilen(restbudgetEinzel);
 			lsgHistoryEinzel.add(invs);
 			invs = new DenseDoubleMatrix1D(anzKomponenten);
-			invs.assign(0); 
+			invs.assign(0);
 			zfwSumme += zfw;
 		}
 		DoubleMatrix1D mittelwertKomponenten = new DenseDoubleMatrix1D(anzKomponenten);
