@@ -21,10 +21,12 @@ public class CAlgorithmusNutzenMethode extends AAlgorithmus {
 
 	public static final double GRANULARITAET = 0.01;
 	private CZustand zustand;
+	private CZustand anfangszustand;
 	private int zeit;
 	private int anzahlIterationenEinzelperiode;
 	private double anfangsbudget;
-	private double restbudget;
+	private double restbudgetEinzel;
+	private double restbudgetGesamt;
 	private Double[] anfangsLeistung;
 
 	private int anzKomponenten;
@@ -52,12 +54,12 @@ public class CAlgorithmusNutzenMethode extends AAlgorithmus {
 	@Override
 	public void initialisieren() {
 
-		CKomponente c1 = new CKomponente(new CVerschleissNormalverteilt(0.39, 0.01),
-				new CKonkaverInvestEinflussExponential(4), 1.0);
-		CKomponente c2 = new CKomponente(new CVerschleissNormalverteilt(0.4, 0.01),
-				new CKonkaverInvestEinflussExponential(4), 1.0);
-		CKomponente c3 = new CKomponente(new CVerschleissNormalverteilt(0.41, 0.01),
-				new CKonkaverInvestEinflussExponential(4), 1.0);
+		CKomponente c1 = new CKomponente(new CKonstanterVerschleiss(0.39), new CKonkaverInvestEinflussExponential(4),
+				1.0);
+		CKomponente c2 = new CKomponente(new CKonstanterVerschleiss(0.4), new CKonkaverInvestEinflussExponential(4),
+				1.0);
+		CKomponente c3 = new CKomponente(new CKonstanterVerschleiss(0.41), new CKonkaverInvestEinflussExponential(4),
+				1.0);
 		komponenten = new ArrayList<>();
 		komponenten.add(c1);
 		komponenten.add(c2);
@@ -65,12 +67,13 @@ public class CAlgorithmusNutzenMethode extends AAlgorithmus {
 
 		serSys = new CSerienSystem(komponenten);
 		this.zustand = new CZustand(anfangsbudget, serSys);
+		this.anfangszustand = new CZustand(anfangsbudget, serSys);
 
 		anzKomponenten = zustand.getSystem().getKomponenten().size();
-		anfangsLeistung = new Double[anzKomponenten];
-		for (int i = 0; i < anzKomponenten; i++) {
-			anfangsLeistung[i] = komponenten.get(i).getLeistung();
-		}
+		// anfangsLeistung = new Double[anzKomponenten];
+		// for (int i = 0; i < anzKomponenten; i++) {
+		// anfangsLeistung[i] = komponenten.get(i).getLeistung();
+		// }
 		invs = new DenseDoubleMatrix1D(anzKomponenten);
 		invs.assign(0);
 		lsgOpt = new DenseDoubleMatrix2D(anzKomponenten, zeit);
@@ -89,34 +92,44 @@ public class CAlgorithmusNutzenMethode extends AAlgorithmus {
 		zfwPeriode = zfwPeriodeInitialisieren();
 		int kritischePeriode = kritischePeriodeBestimmen(zfwPeriode);
 		double aufteilungBudget = GRANULARITAET;
-		restbudget = anfangsbudget;
-		while (restbudget > 0) {
-			double periodenInvestition = Math.min(aufteilungBudget, restbudget);
+		restbudgetGesamt = anfangsbudget;
+		while (restbudgetGesamt > 0) {
+			double periodenInvestition = Math.min(aufteilungBudget, restbudgetGesamt);
 			kritischePeriode = hillClimbing(periodenInvestition, kritischePeriode);
-			restbudget -= periodenInvestition;
+			restbudgetGesamt -= periodenInvestition;
 		}
 	}
 
 	private int hillClimbing(double budgetDelta, int kritischePeriode) {
 		budgetPeriode[kritischePeriode] += budgetDelta;
 		for (int t = 0; t < zeit; t++) {
-			algorithmusEinzelperiode(budgetPeriode[t]);
-			zfwPeriode[t] = this.getZielfunktionswert();
-			for (int i = 0; i < anzKomponenten; i++) {
-				lsgOpt.set(i, t, this.getLoesungPeriode().get(i));	
+			if (t == kritischePeriode) {
+				algorithmusEinzelperiode(budgetPeriode[t]);
+				zfwPeriode[t] = this.getZielfunktionswert();
+				for (int i = 0; i < anzKomponenten; i++) {
+					lsgOpt.set(i, t, this.getLoesungPeriode().get(i));
+				}
+				zustand.zustandsuebergang(invs);
+			} else {
+				for (int i = 0; i < anzKomponenten; i++) {
+					invs.set(i, lsgOpt.get(i, t));
+				}
+				zustand.zustandsuebergang(invs);
+				if (t > kritischePeriode) {
+					zfwPeriode[t] = serSys.strukturfunktionBerechnen();
+				}
 			}
-			zustand.zustandsuebergang(invs);
 		}
+		zustand.resetAnfangszustand();
 		return kritischePeriodeBestimmen(zfwPeriode);
 	}
 
 	private Double[] zfwPeriodeInitialisieren() {
-
 		for (int t = 0; t < zeit; t++) {
-			algorithmusEinzelperiode(0);
-			zfwPeriode[t] = this.getZielfunktionswertPeriode();
 			zustand.zustandsuebergang(invs);
+			zfwPeriode[t] = serSys.strukturfunktionBerechnen();
 		}
+		zustand.resetAnfangszustand();
 		return zfwPeriode;
 	}
 
@@ -153,8 +166,8 @@ public class CAlgorithmusNutzenMethode extends AAlgorithmus {
 	public void algorithmusEinzelperiode(double periodenbudget) {
 		double zfwSumme = 0;
 		for (int j = 0; j < anzahlIterationenEinzelperiode; j++) {
-			restbudget = periodenbudget;
-			budgetVerteilen(restbudget);
+			restbudgetEinzel = periodenbudget;
+			budgetVerteilen(restbudgetEinzel);
 			lsgHistory.add(invs);
 			invs = new DenseDoubleMatrix1D(anzKomponenten);
 			invs.assign(0);
@@ -200,16 +213,16 @@ public class CAlgorithmusNutzenMethode extends AAlgorithmus {
 	public double getZielfunktionswertPeriode() {
 		return this.zfw;
 	}
-	
+
 	@Override
 	public double getZielfunktionswert() {
-		return this.zfwPeriode[zeit];
+		return this.zfwPeriode[zeit - 1];
 	}
 
 	public DoubleMatrix1D getLoesungPeriode() {
 		return this.lsgPeriode;
 	}
-	
+
 	public DoubleMatrix2D getLoesung() {
 		return this.lsgOpt;
 	}

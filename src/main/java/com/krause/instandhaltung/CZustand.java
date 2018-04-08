@@ -13,6 +13,12 @@ public class CZustand {
 
 	private double budget;
 
+	private int anzKomp;
+
+	private double anfangsbudget;
+
+	private double[] anfangsleistungen;
+
 	/**
 	 * Funktion wird ben�tigt, um Anfangszustand wiederherzustellen
 	 * 
@@ -71,5 +77,19 @@ public class CZustand {
 	public CZustand(double budget, ISystem system) {
 		this.system = system;
 		this.budget = budget;
+		this.anfangsbudget = budget;
+		anzKomp = system.getKomponenten().size();
+		anfangsleistungen = new double[anzKomp];
+		for (int i = 0; i < anzKomp; i++) {
+			anfangsleistungen[i] = system.getKomponenten().get(i).getLeistung();
+		}
 	}
+
+	public void resetAnfangszustand() {
+		budget = anfangsbudget;
+		for (int i = 0; i < anzKomp; i++) {
+			system.getKomponenten().get(i).setLeistung(anfangsleistungen[i]);
+		}
+	}
+
 }
