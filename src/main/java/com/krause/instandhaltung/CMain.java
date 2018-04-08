@@ -27,7 +27,7 @@ public class CMain {
 	 */
 	public static void main(String[] args) {
 
-		CAlgorithmusNutzenMethode algo3 = new CAlgorithmusNutzenMethode(1.0, 30000, 0 );
+		CAlgorithmusNutzenMethode algo3 = new CAlgorithmusNutzenMethode(1.0, 1, 4 );
 		algo3.ausfuehren();
 		System.out.println(algo3.getZielfunktionswert());
 		System.out.println(algo3.getLoesung());
