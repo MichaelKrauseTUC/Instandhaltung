@@ -22,7 +22,7 @@ public class CAlgorithmusNutzenMethode extends AAlgorithmus {
 	public static final double GRANULARITAET = 0.01;
 	private CZustand zustand;
 	private int zeit;
-	private int anzahlIterationen;
+	private int anzahlIterationenEinzelperiode;
 	private double anfangsbudget;
 	private double restbudget;
 	private Double[] anfangsLeistung;
@@ -39,11 +39,13 @@ public class CAlgorithmusNutzenMethode extends AAlgorithmus {
 	private ArrayList<DoubleMatrix2D> leistungHistory;
 	private ArrayList<IKomponente> komponenten;
 	private CSerienSystem serSys;
+	private Double[] zfwPeriode;
 
 	public CAlgorithmusNutzenMethode(double anfangsbudget, int iter, int zeit) {
 		this.anfangsbudget = anfangsbudget;
-		this.anzahlIterationen = iter;
+		this.anzahlIterationenEinzelperiode = iter;
 		this.zeit = zeit;
+		initialisieren();
 	}
 
 	@Override
@@ -72,34 +74,31 @@ public class CAlgorithmusNutzenMethode extends AAlgorithmus {
 		invs.assign(0);
 		lsgHistory = new ArrayList<>();
 		nutzen = new Double[anzKomponenten];
-		// komponentenListeCPlus = new ArrayList<>();
+		zfwPeriode = new Double[zeit];
 	}
 
 	@Override
 	public void ausfuehren() {
-		double zfwSumme=0;
-		for (int j = 0; j < anzahlIterationen; j++) {
-			restbudget = anfangsbudget;
-			budgetVerteilen(restbudget);
-			lsgHistory.add(invs);
-			invs = new DenseDoubleMatrix1D(anzKomponenten);
-			invs.assign(0);
-			zfwSumme+=zfw;
+		double aufteilungBudget = GRANULARITAET;
+		for (int t = 0; t < zeit; t++) {
+			algorithmusEinzelperiode(0);
+			zfwPeriode[t]=this.getZielfunktionswert();
+			zustand.zustandsuebergang(invs);
 		}
-		DoubleMatrix1D mittelwertKomponenten = new DenseDoubleMatrix1D(anzKomponenten);
-		mittelwertKomponenten.assign(0);
-		for (int i = 0; i < anzKomponenten; i++) {
-			for (int j = 0; j < anzahlIterationen; j++) {
-				mittelwertKomponenten.set(i, mittelwertKomponenten.get(i) + lsgHistory.get(j).get(i));
+		int kritischePeriode = kritischePeriodeBestimmen(zfwPeriode);
+		
+	}
+
+	private int kritischePeriodeBestimmen(Double[] zielfunktionswertePerioden) {
+		double minZfw=Double.MAX_VALUE;
+		int minArgZfw=-1;
+		for (int t = 0; t < zielfunktionswertePerioden.length; t++) {
+			if (zielfunktionswertePerioden[t]<minZfw) {
+				minZfw=zielfunktionswertePerioden[t];
+				minArgZfw=t;
 			}
-			mittelwertKomponenten.set(i, mittelwertKomponenten.get(i) / anzahlIterationen);
 		}
-		lsg = new DenseDoubleMatrix2D(anzKomponenten, 1);
-		lsg.assign(0);
-		for (int i = 0; i < anzKomponenten; i++) {
-			lsg.set(i, 0, mittelwertKomponenten.get(i));
-		}
-		zfwOpt=zfwSumme/anzahlIterationen;
+		return minArgZfw;
 	}
 
 	public void budgetVerteilen(double restbudget) {
@@ -120,6 +119,32 @@ public class CAlgorithmusNutzenMethode extends AAlgorithmus {
 		}
 	}
 
+	public void algorithmusEinzelperiode(double periodenbudget)
+	{
+		double zfwSumme=0;
+		for (int j = 0; j < anzahlIterationenEinzelperiode; j++) {
+			restbudget = periodenbudget;
+			budgetVerteilen(restbudget);
+			lsgHistory.add(invs);
+			invs = new DenseDoubleMatrix1D(anzKomponenten);
+			invs.assign(0);
+			zfwSumme+=zfw;
+		}
+		DoubleMatrix1D mittelwertKomponenten = new DenseDoubleMatrix1D(anzKomponenten);
+		mittelwertKomponenten.assign(0);
+		for (int i = 0; i < anzKomponenten; i++) {
+			for (int j = 0; j < anzahlIterationenEinzelperiode; j++) {
+				mittelwertKomponenten.set(i, mittelwertKomponenten.get(i) + lsgHistory.get(j).get(i));
+			}
+			mittelwertKomponenten.set(i, mittelwertKomponenten.get(i) / anzahlIterationenEinzelperiode);
+		}
+		lsg = new DenseDoubleMatrix2D(anzKomponenten, 1);
+		lsg.assign(0);
+		for (int i = 0; i < anzKomponenten; i++) {
+			lsg.set(i, 0, mittelwertKomponenten.get(i));
+		}
+		zfwOpt=zfwSumme/anzahlIterationenEinzelperiode;
+	}
 	private void nutzenBerechnen(double b) {
 		for (int j = 0; j < anzKomponenten; j++) {
 			for (int i = 0; i < anzKomponenten; i++) {
