@@ -12,11 +12,14 @@ import cern.colt.matrix.impl.DenseDoubleMatrix2D;
  * @author mkrause
  * @todo es wird noch zu viel Gesamtbudget verteilt...
  */
-public class CAlgorithmusNutzenMethode extends AAlgorithmus {
+public class CAlgorithmusNutzenMethode implements IAlgorithmus {
 
-	public static final double GRANULARITAET = 0.5; // default: 0.01
+	/**
+	 * GRANULARITAET beschreibt, wie kleinteilig die Lösung gesucht wird; bei einem Budget von 1.0 kann eine Granularität 
+	 * von 0.01 als Prozentschritte interpretiert werden
+	 */
+	public static final double GRANULARITAET = 0.01; // default: 0.01
 	private CZustand zustand;
-	private CZustand anfangszustand;
 	private int zeit;
 	private int anzahlIterationenEinzelperiode;
 	private double anfangsbudget;
@@ -63,7 +66,6 @@ public class CAlgorithmusNutzenMethode extends AAlgorithmus {
 
 		serSys = new CSerienSystem(komponenten);
 		this.zustand = new CZustand(anfangsbudget, serSys);
-		this.anfangszustand = new CZustand(anfangsbudget, serSys);
 
 		anzKomponenten = zustand.getSystem().getKomponenten().size();
 		// anfangsLeistung = new Double[anzKomponenten];

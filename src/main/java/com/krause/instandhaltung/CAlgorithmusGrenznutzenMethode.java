@@ -1,10 +1,6 @@
 package com.krause.instandhaltung;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-
 import cern.colt.matrix.DoubleFactory2D;
 import cern.colt.matrix.DoubleMatrix1D;
 import cern.colt.matrix.DoubleMatrix2D;
@@ -16,8 +12,12 @@ import cern.colt.matrix.impl.DenseDoubleMatrix1D;
  * @author mkrause
  *
  */
-public class CAlgorithmusGrenznutzenMethode extends AAlgorithmus {
+public class CAlgorithmusGrenznutzenMethode implements IAlgorithmus {
 
+	/**
+	 * GRANULARITAET beschreibt, wie kleinteilig die Lösung gesucht wird; bei einem Budget von 1.0 kann eine Granularität 
+	 * von 0.01 als Prozentschritte interpretiert werden
+	 */
 	public static final double GRANULARITAET = 0.01;
 	private CZustand zustand;
 	private int zeit;
