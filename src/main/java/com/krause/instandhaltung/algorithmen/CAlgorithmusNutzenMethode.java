@@ -1,6 +1,9 @@
-package com.krause.instandhaltung;
+package com.krause.instandhaltung.algorithmen;
 
 import java.util.ArrayList;
+
+import com.krause.instandhaltung.*;
+
 import cern.colt.matrix.DoubleMatrix1D;
 import cern.colt.matrix.DoubleMatrix2D;
 import cern.colt.matrix.impl.DenseDoubleMatrix1D;

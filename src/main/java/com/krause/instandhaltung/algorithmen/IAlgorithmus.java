@@ -1,4 +1,4 @@
-package com.krause.instandhaltung;
+package com.krause.instandhaltung.algorithmen;
 
 import java.util.ArrayList;
 

@@ -1,5 +1,7 @@
 package com.krause.instandhaltung;
 
+import com.krause.instandhaltung.algorithmen.CAlgorithmusNutzenMethode;
+
 import cern.colt.matrix.DoubleMatrix2D;
 
 /**
