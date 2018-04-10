@@ -1,4 +1,4 @@
-package com.krause.instandhaltung;
+package com.krause.instandhaltung.leistungsentwicklung;
 
 /**
  * Interface stellt sicher, dass der Verschleiss einer Komponente ausgelesen

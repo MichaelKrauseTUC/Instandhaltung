@@ -1,4 +1,6 @@
-package com.krause.instandhaltung;
+package com.krause.instandhaltung.systemkomponenten;
+
+import com.krause.instandhaltung.*;
 
 import java.util.LinkedList;
 

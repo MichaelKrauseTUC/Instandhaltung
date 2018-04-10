@@ -3,6 +3,9 @@ package com.krause.instandhaltung.algorithmen;
 import java.util.ArrayList;
 
 import com.krause.instandhaltung.*;
+import com.krause.instandhaltung.leistungsentwicklung.*;
+import com.krause.instandhaltung.systemkomponenten.*;
+
 
 import cern.colt.matrix.DoubleFactory2D;
 import cern.colt.matrix.DoubleMatrix1D;

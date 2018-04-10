@@ -1,4 +1,6 @@
-package com.krause.instandhaltung;
+package com.krause.instandhaltung.leistungsentwicklung;
+
+import com.krause.instandhaltung.*;
 
 import java.util.Random;
 
