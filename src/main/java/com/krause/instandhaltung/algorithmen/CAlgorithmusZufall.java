@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 import com.krause.instandhaltung.*;
+import com.krause.instandhaltung.leistungsentwicklung.*;
+import com.krause.instandhaltung.systemkomponenten.*;
 
 import cern.colt.matrix.DoubleFactory2D;
 import cern.colt.matrix.DoubleMatrix1D;
