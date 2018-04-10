@@ -7,7 +7,6 @@ import java.util.LinkedList;
  * Abstrakte Klasse, um Feld "komponenten" nicht neu anlegen zu m�ssen
  * 
  * @author mkrause
- * @brief Kurzbeschreibung
  * 
  * 
  */
