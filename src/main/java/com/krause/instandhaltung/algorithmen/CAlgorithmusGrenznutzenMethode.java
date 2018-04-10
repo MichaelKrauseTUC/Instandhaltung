@@ -29,7 +29,7 @@ public class CAlgorithmusGrenznutzenMethode implements IAlgorithmus {
 	private int zeit;
 	private int anzahlIterationen;
 	private double gesamtBudget;
-	private Double[] anfangsLeistung;
+	private double[] anfangsLeistung;
 
 	private int anzKomponenten;
 	private DoubleMatrix1D invs;
@@ -38,43 +38,35 @@ public class CAlgorithmusGrenznutzenMethode implements IAlgorithmus {
 	private DoubleFactory2D D = DoubleFactory2D.dense;
 	private double zfw;
 	private double zfwOpt;
-	private Double[] grenznutzen;
-	private ArrayList<DoubleMatrix2D> lsgHistory;
+	private double[] grenznutzen; 
+	private ArrayList<DoubleMatrix2D> lsgHistory = new ArrayList<>();
 	private ArrayList<DoubleMatrix2D> leistungHistory;
-	private ArrayList<IKomponente> komponenten;
+	private ArrayList<IKomponente> komponenten = new ArrayList<>();
 	private CSerienSystem serSys;
-	private ArrayList<Integer> komponentenListeCPlus;
+	private ArrayList<Integer> komponentenListeCPlus= new ArrayList<>();
 	private int zweitMaxArgGrenznutzen;
 	private double zweitMaxGrenznutzen;
 
 	@Override
 	public void initialisieren() {
-
-		CKomponente c1 = new CKomponente(new CKonstanterVerschleiss(0.3), new CKonkaverInvestEinflussExponential(3.9),
-				1.0);
-		CKomponente c2 = new CKomponente(new CKonstanterVerschleiss(0.4), new CKonkaverInvestEinflussExponential(4),
-				1.0);
-		CKomponente c3 = new CKomponente(new CKonstanterVerschleiss(0.3), new CKonkaverInvestEinflussExponential(4.1),
-				1.0);
-		komponenten = new ArrayList<>();
-		komponenten.add(c1);
-		komponenten.add(c2);
-		komponenten.add(c3);
-
+		komponenten.add(new CKomponente(new CKonstanterVerschleiss(0.3), new CKonkaverInvestEinflussExponential(3.9),
+				1.0));
+		komponenten.add(new CKomponente(new CKonstanterVerschleiss(0.4), new CKonkaverInvestEinflussExponential(4),
+				1.0));
+		komponenten.add(new CKomponente(new CKonstanterVerschleiss(0.3), new CKonkaverInvestEinflussExponential(4.1),
+				1.0));
 		gesamtBudget = 1.0;
 		serSys = new CSerienSystem(komponenten);
 		this.zustand = new CZustand(gesamtBudget, serSys);
 
 		anzKomponenten = zustand.getSystem().getKomponenten().size();
-		anfangsLeistung = new Double[anzKomponenten];
+		anfangsLeistung = new double[anzKomponenten];
 		for (int i = 0; i < anzKomponenten; i++) {
 			anfangsLeistung[i] = komponenten.get(i).getLeistung();
 		}
 		invs = new DenseDoubleMatrix1D(anzKomponenten);
 		invs.assign(0);
-		lsgHistory = new ArrayList<>();
-		grenznutzen = new Double[anzKomponenten];
-		komponentenListeCPlus = new ArrayList<>();
+		grenznutzen = new double[anzKomponenten];
 	}
 
 	@Override
