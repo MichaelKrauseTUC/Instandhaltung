@@ -19,8 +19,9 @@ import cern.colt.matrix.impl.DenseDoubleMatrix2D;
 public class CAlgorithmusNutzenMethode implements IAlgorithmus {
 
 	/**
-	 * GRANULARITAET beschreibt, wie kleinteilig die Lösung gesucht wird; bei einem Budget von 1.0 kann eine Granularität 
-	 * von 0.01 als Prozentschritte interpretiert werden
+	 * GRANULARITAET beschreibt, wie kleinteilig die Lösung gesucht wird; bei einem
+	 * Budget von 1.0 kann eine Granularität von 0.01 als Prozentschritte
+	 * interpretiert werden
 	 */
 	public static final double GRANULARITAET = 0.01; // default: 0.01
 	private CZustand zustand;
@@ -42,7 +43,7 @@ public class CAlgorithmusNutzenMethode implements IAlgorithmus {
 	private ArrayList<DoubleMatrix1D> lsgHistoryEinzel;
 	private ArrayList<DoubleMatrix1D> lsgHistory;
 	// private ArrayList<DoubleMatrix2D> leistungHistory;
-	private ArrayList<IKomponente> komponenten;
+	private ArrayList<IKomponente> komponenten = new ArrayList<>();
 	private CSerienSystem serSys;
 	private Double[] zfwPeriode;
 	private Double[] budgetPeriode;
@@ -56,17 +57,12 @@ public class CAlgorithmusNutzenMethode implements IAlgorithmus {
 
 	@Override
 	public void initialisieren() {
-
-		CKomponente c1 = new CKomponente(new CKonstanterVerschleiss(0.039), new CKonkaverInvestEinflussExponential(4.1),
-				1.0);
-		CKomponente c2 = new CKomponente(new CKonstanterVerschleiss(0.04), new CKonkaverInvestEinflussExponential(4),
-				1.0);
-		CKomponente c3 = new CKomponente(new CKonstanterVerschleiss(0.041), new CKonkaverInvestEinflussExponential(2),
-				1.0);
-		komponenten = new ArrayList<>();
-		komponenten.add(c1);
-		komponenten.add(c2);
-		komponenten.add(c3);
+		komponenten.add(
+				new CKomponente(new CKonstanterVerschleiss(0.039), new CKonkaverInvestEinflussExponential(4.1), 1.0));
+		komponenten
+				.add(new CKomponente(new CKonstanterVerschleiss(0.04), new CKonkaverInvestEinflussExponential(4), 1.0));
+		komponenten.add(
+				new CKomponente(new CKonstanterVerschleiss(0.041), new CKonkaverInvestEinflussExponential(2), 1.0));
 
 		serSys = new CSerienSystem(komponenten);
 		this.zustand = new CZustand(anfangsbudget, serSys);
