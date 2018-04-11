@@ -12,7 +12,7 @@ import cern.colt.matrix.impl.DenseDoubleMatrix2D;
 
 /**
  * 
- * 
+ *  
  * @author mkrause
  * @todo es wird noch zu viel Gesamtbudget verteilt...
  */
