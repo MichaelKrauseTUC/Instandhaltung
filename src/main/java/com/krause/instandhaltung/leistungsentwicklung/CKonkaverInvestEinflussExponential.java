@@ -1,6 +1,4 @@
 package com.krause.instandhaltung.leistungsentwicklung;
-
-import com.krause.instandhaltung.*;
 /**
  * Klasse mit konkavem Investitionseinfluss (abnehmender Grenznutzen)
  * 

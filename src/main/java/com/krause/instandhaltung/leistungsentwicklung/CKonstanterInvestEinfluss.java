@@ -1,7 +1,5 @@
 package com.krause.instandhaltung.leistungsentwicklung;
 
-import com.krause.instandhaltung.*;
-
 /**
  * Testklasse, die die Leistung einer Komponente um genau den
  * Investitionseinsatz anhebt

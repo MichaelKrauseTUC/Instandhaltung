@@ -1,8 +1,7 @@
 package com.krause.instandhaltung.algorithmen;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import cern.colt.matrix.DoubleMatrix1D;
 import cern.colt.matrix.DoubleMatrix2D;
 
 /**
@@ -33,18 +32,15 @@ public interface IAlgorithmus {
 	public double getZielfunktionswert();
 
 	/**
-	 * generiert L�sung
+	 * @return Loesung x[i,t] des Algorithmus
 	 * 
-	 * @todo evtl. R�ckgabewert Matrix2D von colt (CERN)
 	 */
 	public DoubleMatrix2D getLoesung();
 
 	/**
-	 * soll L�sungshistorie zur�ckgeben, also ein Array<Matrix2D> oder so �hnlich
-	 * @return 
-	 * @todo coden 
+	 * @return Loesungshistorie x[i,t] für jede Iteration
 	 */
-	public ArrayList<DoubleMatrix2D> getHistory();
+	public List<DoubleMatrix2D> getHistory();
 	
 	public void verlaeufeUeberZeitPlotten();
 }

@@ -1,7 +1,5 @@
 package com.krause.instandhaltung.leistungsentwicklung;
 
-import com.krause.instandhaltung.*;
-
 /**
  * Interface stellt sicher, dass der Einfluss von Geld auf eine Komponente
  * gew�hrleistet ist

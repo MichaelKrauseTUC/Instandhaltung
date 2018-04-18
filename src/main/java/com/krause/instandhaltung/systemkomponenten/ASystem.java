@@ -1,7 +1,5 @@
 package com.krause.instandhaltung.systemkomponenten;
 
-import com.krause.instandhaltung.*;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -17,9 +15,9 @@ public abstract class ASystem implements ISystem {
 	 * @param komponenten
 	 *            Liste von Komponenten, die sich im System befinden
 	 */
-	protected ArrayList<IKomponente> komponenten;
+	protected ArrayList<IKomponente> komponenten = new ArrayList<>();
 
-	protected LinkedList<Double> systemleistungHistorie;
+	protected LinkedList<Double> systemleistungHistorie = new LinkedList<>();
 
 	public LinkedList<Double> getSystemleistungHistorie() {
 		return systemleistungHistorie;
@@ -33,7 +31,6 @@ public abstract class ASystem implements ISystem {
 	 */
 	public ASystem(ArrayList<IKomponente> komponenten) {
 		this.komponenten = komponenten;
-		systemleistungHistorie = new LinkedList<>();
 	}
 
 	/**

@@ -1,7 +1,5 @@
 package com.krause.instandhaltung.systemkomponenten;
 
-import com.krause.instandhaltung.*;
-
 import java.util.LinkedList;
 
 /**
@@ -32,7 +30,7 @@ public interface IKomponente {
 	 * 
 	 * @param leistung
 	 */
-	public void setLeistung(Double leistung);
+	public void setLeistung(double leistung);
 	
 	public LinkedList<Double> getLeistungHistory();
 

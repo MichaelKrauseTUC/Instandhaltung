@@ -1,7 +1,6 @@
 package com.krause.instandhaltung;
 
 import java.awt.Dimension;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 

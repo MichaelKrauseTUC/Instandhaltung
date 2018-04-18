@@ -1,6 +1,6 @@
 package com.krause.instandhaltung;
 
-import com.krause.instandhaltung.algorithmen.CAlgorithmusNutzenMethode;
+import com.krause.instandhaltung.algorithmen.*;
 
 import cern.colt.matrix.DoubleMatrix2D;
 
@@ -29,19 +29,15 @@ public class CMain {
 	 */
 	public static void main(String[] args) {
 
-		CAlgorithmusNutzenMethode algo3 = new CAlgorithmusNutzenMethode(10.0, 2, 4 );
-		algo3.ausfuehren();
-		System.out.println(algo3.getZielfunktionswert());
-		System.out.println(algo3.getLoesung());
-//		CAlgorithmusZufall algo2 = new CAlgorithmusZufall(100);
-//		algo2.initialisieren();
-//		algo2.ausfuehren();
-//		double zfw = algo2.getZielfunktionswert();
-//		System.out.println(zfw);
-//		DoubleMatrix2D lsg = algo2.getLoesung();
-//		System.out.println(lsg);
-//		algo2.verlaeufeUeberZeitPlotten();
-		// ArrayList<DoubleMatrix2D> lsgHistory = algo2.getHistory();
+		CAlgorithmusZufall algo2 = new CAlgorithmusZufall(100);
+		algo2.initialisieren();
+		algo2.ausfuehren();
+		double zfw = algo2.getZielfunktionswert();
+		System.out.println(zfw);
+		DoubleMatrix2D lsg = algo2.getLoesung();
+		System.out.println(lsg);
+		algo2.verlaeufeUeberZeitPlotten();
+//		ArrayList<DoubleMatrix2D> lsgHistory = algo2.getHistory();
 
 		// CAlgorithmusTest algo1 = new CAlgorithmusTest();
 		// algo1.initialisieren();

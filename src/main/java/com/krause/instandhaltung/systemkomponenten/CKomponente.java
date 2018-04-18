@@ -18,14 +18,8 @@ public class CKomponente implements IKomponente {
 		return leistungHistory;
 	}
 
-	/**
-	 * 
-	 * @param leistung
-	 *            aktuelle Leistung der Komponente wird gesetzt
-	 */
-	public void setLeistung(double leistung) {
-		this.leistung = leistung;
-	}
+	
+
 
 	private IVerschleiss verschleiss;
 	private IInvestEinfluss invEinfluss;
@@ -78,7 +72,7 @@ public class CKomponente implements IKomponente {
 	}
 
 	public void leistungSchrittZurueck() {
-		double leist=leistungHistory.removeLast();
+		leistungHistory.removeLast();
 		 
 		this.setLeistung(leistungHistory.getLast());
 	}
@@ -87,10 +81,9 @@ public class CKomponente implements IKomponente {
 	 * aktuelle Leistung wird gesetzt
 	 * 
 	 * @param leistung
-	 *            Leistung wird gesetzt (Double statt double einziger Unterschied zu
-	 *            anderer Funktion
+	 *            Leistung wird gesetzt
 	 */
-	public void setLeistung(Double leistung) {
+	public void setLeistung(double leistung) {
 		this.leistung = leistung;
 		this.leistungHistory.add(leistung);
 	}
