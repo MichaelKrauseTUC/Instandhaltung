@@ -32,6 +32,11 @@
             <artifactId>colt</artifactId>
             <version>1.2.0</version>
         </dependency>
+        <dependency>   
+			<groupId>com.joptimizer</groupId>   
+			<artifactId>joptimizer</artifactId>   
+			<version>4.0.0</version> 
+	</dependency>
     </dependencies>
 
     <properties>

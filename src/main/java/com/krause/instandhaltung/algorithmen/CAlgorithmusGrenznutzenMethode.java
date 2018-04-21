@@ -2,6 +2,7 @@ package com.krause.instandhaltung.algorithmen;
 
 import java.util.ArrayList;
 
+import com.joptimizer.optimizers.JOptimizer;
 import com.krause.instandhaltung.*;
 import com.krause.instandhaltung.leistungsentwicklung.*;
 import com.krause.instandhaltung.systemkomponenten.*;
@@ -30,7 +31,8 @@ public class CAlgorithmusGrenznutzenMethode implements IAlgorithmus {
 	private int anzahlIterationen;
 	private double gesamtBudget;
 	private double[] anfangsLeistung;
-
+	private JOptimizer convexSolver;
+	
 	private int anzKomponenten;
 	private DoubleMatrix1D invs;
 	private DoubleMatrix2D lsg;
