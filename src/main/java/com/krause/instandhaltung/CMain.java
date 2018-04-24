@@ -1,14 +1,22 @@
 package com.krause.instandhaltung;
 
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.logging.*;
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.RealMatrix;
+
 import com.joptimizer.exception.JOptimizerException;
 import com.joptimizer.functions.ConvexMultivariateRealFunction;
 import com.joptimizer.functions.FunctionsUtils;
+import com.joptimizer.functions.PDQuadraticMultivariateRealFunction;
 import com.joptimizer.optimizers.JOptimizer;
 import com.joptimizer.optimizers.NewtonUnconstrained;
 import com.joptimizer.optimizers.OptimizationRequest;
+import com.joptimizer.optimizers.OptimizationResponse;
 import com.krause.instandhaltung.algorithmen.*;
 
 import cern.colt.matrix.tdouble.*;
+import cern.colt.matrix.tdouble.algo.DenseDoubleAlgebra;
 import cern.colt.matrix.tdouble.impl.*;
 
 /**
@@ -28,14 +36,17 @@ public class CMain {
 	 */
 
 	public static final double FEHLERTOLERANZ = 0.0000001;
-	public static DoubleFactory1D F1 = DoubleFactory1D.dense;
-	public static DoubleFactory2D F2 = DoubleFactory2D.dense;
-
+	private DenseDoubleAlgebra ALG = DenseDoubleAlgebra.DEFAULT;
+	private DoubleFactory1D F1 = DoubleFactory1D.dense;
+	private DoubleFactory2D F2 = DoubleFactory2D.dense;
+	private static Log log = LogFactory.getLog(CMain.class.getName());
+	
+	
 	/**
 	 * 
 	 * @param args
 	 *            keine Inputparameter definiert
-	 * @throws JOptimizerException 
+	 * @throws JOptimizerException
 	 */
 	public static void main(String[] args) throws JOptimizerException {
 
@@ -49,51 +60,31 @@ public class CMain {
 		 * Kommentar wieder wegmachen, wenn JOptimizer getestet!
 		 **/
 
-		NewtonUnconstrained convexSolver = new NewtonUnconstrained();
+		log.debug("test");
+		RealMatrix P = new Array2DRowRealMatrix(new double[][] { { 1., 0 }, { 0, 1. } });
+		PDQuadraticMultivariateRealFunction objectiveFunction = new PDQuadraticMultivariateRealFunction(P.getData(),
+				new double[] { 0, 0 }, 0);
+
 		OptimizationRequest or = new OptimizationRequest();
-		ConvexMultivariateRealFunction f0 = new ConvexMultivariateRealFunction() {
-
-			@Override
-			public DoubleMatrix2D hessian(DoubleMatrix1D X) {
-				DoubleMatrix2D Z = new DenseDoubleMatrix2D(2, 2);
-
-				Z.set(0, 0, 2);
-				Z.set(0, 1, 0);
-				Z.set(1, 0, 0);
-				Z.set(1, 1, 2);
-				return Z;
-			}
-
-			@Override
-			public int getDim() {
-				return 2;
-			}
-
-			@Override
-			public double value(DoubleMatrix1D X) {
-				double erg = -(Math.pow(X.get(0), 2) + Math.pow(X.get(1), 2));
-				return erg;
-			}
-
-			public DoubleMatrix1D gradient(DoubleMatrix1D X) {
-				DoubleMatrix1D Z = new DenseDoubleMatrix1D(2);
-				Z.set(0, 2 * X.get(0));
-				Z.set(1, 2 * X.get(1));
-				return Z;
-			}
-
-		};
+		or.setF0(objectiveFunction);
 
 		ConvexMultivariateRealFunction[] inequalities = new ConvexMultivariateRealFunction[1];
 		inequalities[0] = FunctionsUtils.createCircle(2, 3);// dim=2, radius=3, center=(0,0)
-		or.setF0(f0);
-		or.setFi(inequalities);
-		double[] initPoint=new double[2];
+
+		NewtonUnconstrained convexSolver = new NewtonUnconstrained();
+//		or.setFi(inequalities);
+		double[] initPoint = new double[] { 0, 0 };
 		or.setInitialPoint(initPoint);
 		or.setTolerance(1.e-8);
+		or.setToleranceFeas(1.E-8);
 		convexSolver.setOptimizationRequest(or);
 		convexSolver.optimize();
 
+		OptimizationResponse response = convexSolver.getOptimizationResponse();
+		double[] sol = response.getSolution();
+		log.debug("sol   : " + ArrayUtils.toString(sol));
+//		log.debug("value : "	+ objectiveFunction.value(F1.make(sol)));
+		
 		// ArrayList<DoubleMatrix2D> lsgHistory = algo2.getHistory();
 
 		// CAlgorithmusTest algo1 = new CAlgorithmusTest();
