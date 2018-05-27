@@ -31,10 +31,13 @@ public interface IKomponente {
 	 * @param leistung
 	 */
 	public void setLeistung(double leistung);
-	
+
 	public LinkedList<Double> getLeistungHistory();
 
 	public void leistungSchrittZurueck();
-	
+
 	public void leistungNSchritteZurueck(int n);
+
+	public double getInvestEinfluss(double inv);
+
 }

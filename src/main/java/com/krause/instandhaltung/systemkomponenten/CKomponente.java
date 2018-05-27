@@ -18,9 +18,6 @@ public class CKomponente implements IKomponente {
 		return leistungHistory;
 	}
 
-	
-
-
 	private IVerschleiss verschleiss;
 	private IInvestEinfluss invEinfluss;
 
@@ -62,20 +59,21 @@ public class CKomponente implements IKomponente {
 			leistung = 0;
 		leistungHistory.add(leistung);
 	}
-	
+
 	public void leistungNSchritteZurueck(int n) {
-		double leist=0;
+		double leist = 0;
 		for (int i = 0; i <= n; i++) {
-			leist=leistungHistory.removeLast();
-		} 
+			leist = leistungHistory.removeLast();
+		}
 		this.setLeistung(leist);
 	}
 
 	public void leistungSchrittZurueck() {
 		leistungHistory.removeLast();
-		 
+
 		this.setLeistung(leistungHistory.getLast());
 	}
+
 	@Override
 	/**
 	 * aktuelle Leistung wird gesetzt
@@ -87,10 +85,15 @@ public class CKomponente implements IKomponente {
 		this.leistung = leistung;
 		this.leistungHistory.add(leistung);
 	}
-	
-//	public CKomponente clone() {
-//		CKomponente hilf = new CKomponente(verschleiss, invEinfluss);
-//		hilf.setLeistung(leistung);
-//		return hilf;
-//	}
+
+	@Override
+	public double getInvestEinfluss(double invest) {
+		return invEinfluss.getInvestEinfluss(invest, leistung, verschleiss.getErwVerschleiss(leistung));
+	}
+
+	// public CKomponente clone() {
+	// CKomponente hilf = new CKomponente(verschleiss, invEinfluss);
+	// hilf.setLeistung(leistung);
+	// return hilf;
+	// }
 }
